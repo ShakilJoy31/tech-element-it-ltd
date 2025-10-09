@@ -30,7 +30,7 @@ const Banner = () => {
                     <Heading>
                         <AnimatedText
                             text="Crafting Digital Experiences That Inspire & Convert"
-                            loop={true}
+                            loop={false}
                             loopDelay={5}
                             className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight"
                         />

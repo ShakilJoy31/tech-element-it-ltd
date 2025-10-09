@@ -133,9 +133,6 @@ const AnimatedText = ({
       // Start the wave effect
       waveIntervalRef.current = setInterval(() => {
         setWavePosition(prev => {
-          if (prev >= totalChars - 1) {
-            return 0; // Restart from the beginning
-          }
           return prev + 1;
         });
       }, waveSpeed * 1000);

@@ -8,6 +8,8 @@ import projectImage1 from "../../../public/Project-Screenshot/e-commerce.png"
 import projectImage2 from "../../../public/Project-Screenshot/fashinova.png"
 import projectImage3 from "../../../public/Project-Screenshot/gramer-hut.png"
 import projectImage4 from "../../../public/Project-Screenshot/taste-hub.png"
+import projectImage5 from "../../../public/Project-Screenshot/car-garage.png"
+import projectImage6 from "../../../public/Project-Screenshot/juyela.png"
 import Button from "../reusable-components/Button";
 
 // Template data
@@ -59,6 +61,30 @@ const templates = [
         features: ["Lookbook", "Size Guide", "Social Feed", "Style Quiz"],
         rating: 4.9,
         sales: 1345
+    },
+    {
+        id: 5,
+        name: "Car Garage",
+        category: "Showroom",
+        description: "Trendy fashion template with lookbook, size guides, and social media integration for clothing brands.",
+        image: projectImage5.src,
+        liveUrl: "https://car-garage-xi.vercel.app",
+        price: "$85",
+        features: ["Lookbook", "Size Guide", "Social Feed", "Style Quiz"],
+        rating: 4.5,
+        sales: 445
+    },
+    {
+        id: 6,
+        name: "Juyela",
+        category: "Fashion",
+        description: "Trendy fashion template with lookbook, size guides, and social media integration for clothing brands.",
+        image: projectImage6.src,
+        liveUrl: "https://juyala.vercel.app",
+        price: "$85",
+        features: ["Lookbook", "Size Guide", "Social Feed", "Style Quiz"],
+        rating: 4.8,
+        sales: 745
     }
 ];
 
@@ -102,7 +128,7 @@ export default function TemplateShowcase() {
                 <div className="relative mb-8">
                     <div className="flex overflow-x-auto pb-2 hide-scrollbar md:overflow-visible">
                         <div className="flex space-x-2 min-w-max md:min-w-0 bg-gray-50 dark:bg-gray-900 rounded-lg p-1 shadow-sm">
-                            {['All', 'E-Commerce', 'Organic Food', 'Restaurant'].map((projectCategory) => (
+                            {['All', 'E-Commerce', 'Organic Food', 'Restaurant', 'Fashion', 'Showroom'].map((projectCategory) => (
                                 <Button
                                     key={projectCategory}
                                     onClick={(e) => {
