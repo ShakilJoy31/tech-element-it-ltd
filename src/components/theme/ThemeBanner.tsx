@@ -13,7 +13,7 @@ export default function ThemeBanner() {
                 {/* Heading */}
                 <Heading className="flex items-center justify-center mb-12">
                     <AnimatedText
-                        text="Projects"
+                        text="Template"
                         loop={true}
                         loopDelay={5}
                         className="text-white text-5xl mt-4 md:mt-0 md:text-[80px] font-bold flex items-center justify-center gap-2"
