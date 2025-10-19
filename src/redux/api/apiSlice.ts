@@ -90,5 +90,6 @@ export const apiSlice = createApi({
     "seller-login",
     "faq",
     "blog-category",
+    "email-client"
   ],
 });

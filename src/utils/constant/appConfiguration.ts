@@ -2,6 +2,7 @@ interface IConfigurationProps {
   appName: string;
   appCode: string;
   baseUrl: string;
+  baseUrl2: string;
   databaseResetAPI: string;
   favicon: string;
   logo: string;
@@ -15,11 +16,12 @@ const version = "V1.0.0";
 //////////// BETA VERSION ////////////
 
 export const appConfiguration: IConfigurationProps = {
-  appName: "Proyojon e-commerce",
+  appName: "Tech element",
   appCode: "__t_beta__",
-  baseUrl:"https://proyojon-backend.vercel.app/api/v1/",
+      baseUrl: "https://tech-element-backend.vercel.app/api/v1",
+  baseUrl2: "https://tech-element-backend.vercel.app/api/v1",
   databaseResetAPI:
-    "https://pos-software-with-my-sql-kry-test.vercel.app/api/v1/admin/db-reset-tebd2024",
+    "null",
   favicon: "/iconic.png",
   logo: "/src/assets/longeng.png",
   version,
