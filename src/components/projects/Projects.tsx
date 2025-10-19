@@ -29,32 +29,32 @@ export default function Projects() {
     const projects: Project[] = [
         {
             id: 1,
-            title: "E-commerce Platform for",
-            subtitle: "Smartphones & Gadgets",
+            title: "KRY",
+            subtitle: "- E-Commerce",
             description: "Revolutionizing online shopping with a sleek, user-friendly platform featuring secure payments, advanced search filters, and personalized recommendations.",
             category: "App Development",
             image: productImage.src
         },
         {
             id: 2,
-            title: "Health & Fitness",
-            subtitle: "Mobile Application",
+            title: "School Management",
+            subtitle: "- Educational Software",
             description: "A comprehensive fitness app with workout tracking, meal planning, and progress analytics to help users achieve their health goals.",
             category: "UI/UX Design",
             image: productImage2.src
         },
         {
             id: 3,
-            title: "Smart Home",
-            subtitle: "Control System",
+            title: "Iconic",
+            subtitle: "- Ticket Management Software",
             description: "An intuitive IoT solution that allows users to control their home appliances, security systems, and energy usage from a single interface.",
             category: "Technology",
             image: productImage3.src
         },
         {
             id: 4,
-            title: "Financial Management",
-            subtitle: "Dashboard",
+            title: "Proyojon Sobar",
+            subtitle: "- E-Commerce",
             description: "A powerful financial analytics dashboard that provides real-time insights into spending patterns, investments, and budget management.",
             category: "UI/UX Design",
             image: productImage4.src

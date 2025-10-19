@@ -8,7 +8,7 @@ import AnimatedText from "../reusable-components/AnimatedText";
 
 export default function ProjectBanner() {
     return (
-        <section className="bg-gradient-to-b from-[#003D64] to-[#0B0B2D] px-4 py-16 md:py-24">
+        <section className="bg-gradient-to-b from-[#003D64] to-[#0B0B2D] px-4 py-8 md:py-12">
             <div className="max-w-[1280px] mx-auto text-center">
                 {/* Heading */}
                 <Heading className="flex items-center justify-center mb-12">
