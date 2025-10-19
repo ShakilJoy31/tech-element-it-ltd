@@ -265,7 +265,7 @@ export default function PricingHeader() {
                             No plans found for &quot;{selectedCategory}&quot;
                         </p>
                         <Button
-                            onClick={() => setSelectedCategory('All Categories')}
+                            onClick={() => setSelectedCategory('All Categories')} 
                             className="mt-4 bg-[#1776BB] text-white px-6 py-2 rounded-lg hover:bg-[#1466a3] transition-colors"
                         >
                             Show All Plans
