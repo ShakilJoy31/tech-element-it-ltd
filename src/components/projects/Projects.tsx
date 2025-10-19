@@ -6,10 +6,10 @@ import ProjectCard from "./ProjectCard";
 import { GoDotFill } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import Button from "../reusable-components/Button";
-import productImage from "@/assets/Projects/projectImage.png";
+import productImage from "@/assets/Projects/Screenshot (1235).png";
 import productImage2 from "@/assets/Projects/projectImagee (1).png";
-import productImage3 from "@/assets/Projects/projectImagee (2).png";
-import productImage4 from "@/assets/Projects/projectImagee (3).png";
+import productImage3 from "@/assets/Projects/Screenshot (1236).png";
+import productImage4 from "@/assets/Projects/Screenshot (1234).png";
 
 // Project data interface
 interface Project {

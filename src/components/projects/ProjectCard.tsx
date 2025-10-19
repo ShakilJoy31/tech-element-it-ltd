@@ -15,7 +15,7 @@ export default function ProjectCard({ title, subtitle, description, image }: Pro
     return (
         <div className="bg-white dark:bg-background rounded-[20px] shadow-md overflow-hidden border border-gray-100 h-[538px] hover:shadow-2xl duration-300 ">
             {/* Image */}
-            <div className=" relative p-2 h-[327px] ">
+            <div className=" relative p-2 h-auto ">
                 <Image
                     src={image || productImage}
                     alt={title}
