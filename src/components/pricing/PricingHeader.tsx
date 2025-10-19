@@ -262,7 +262,7 @@ export default function PricingHeader() {
                 {filteredPricingPlans.length === 0 ? (
                     <div className="text-center py-12">
                         <p className="text-gray-500 dark:text-gray-400 text-lg">
-                            No plans found for "{selectedCategory}"
+                            No plans found for &quot;{selectedCategory}&quot;
                         </p>
                         <Button
                             onClick={() => setSelectedCategory('All Categories')}
