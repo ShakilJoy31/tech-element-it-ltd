@@ -35,7 +35,7 @@ export default function ContactSection() {
       message: "",
       phone: "",
       country: "",
-      projectName: "",
+      projectName: "", 
     },
   });
 
