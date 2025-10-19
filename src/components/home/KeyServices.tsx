@@ -5,7 +5,7 @@ import { Navigation } from "swiper/modules";
 import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
-import dimond from '@/assets/Home/dimond.png'
+import dimond from '@/assets/Home/dimond-gif.gif'
 import portfolioImage from '@/assets/Home/portfolio.jpg'
 import portfolioImage1 from '@/assets/Service/key-service-(1).webp'
 import portfolioImage2 from '@/assets/Service/key-service-(2).webp'
@@ -131,7 +131,7 @@ export default function KeyServices() {
                 <div className="md:w-1/3 flex md:flex-col lg:justify-between w-full">
                     <div className="block mx-auto ">
                         {/* Circle text logo */}
-                        <div className="flex items-center gap-3 mb-6">
+                        <div className="flex items-center gap-3 mb-2">
                             <div className="w-16 h-16 border border-white rounded-full flex items-center justify-center">
                                 <span className="text-sm">T</span>
                             </div>
@@ -145,13 +145,13 @@ export default function KeyServices() {
                     </div>
 
                     {/* Diamond image */}
-                    <div className="mt-10 flex justify-center">
+                    <div className="flex justify-center">
                         <Image
                             src={dimond}
                             alt="Diamond"
                             width={200}
                             height={200}
-                            className="w-[150px] md:w-[220px] lg:w-[270px] h-auto"
+                            className="w-[180px] md:w-[280px] lg:w-[370px] h-auto"
                             priority
                         />
                     </div>

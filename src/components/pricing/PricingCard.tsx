@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface PricingCardProps {
@@ -6,6 +7,7 @@ interface PricingCardProps {
     title: string;
     price: string;
     period: string;
+    externalLink: string;
     features: string[];
     extraLinks?: { label: string }[];
 }
@@ -15,6 +17,7 @@ export default function PricingCard({
     title,
     price,
     period,
+    externalLink,
     features,
 }: PricingCardProps) {
     const router = useRouter();
@@ -43,9 +46,9 @@ export default function PricingCard({
                     Buy now
                 </button>
                 
-                <button className="border border-[#9F9FAF] text-gray-700 dark:text-gray-300 py-1.5 px-2 text-sm rounded-[10px] font-medium hover:cursor-pointer transition">
+                <Link href={externalLink} target="_blank" className="border border-[#9F9FAF] text-gray-700 dark:text-gray-300 py-1.5 px-2 text-sm rounded-[10px] font-medium hover:cursor-pointer transition">
                     Free Demo
-                </button>
+                </Link>
             </div>
 
             {/* Features - Scrollable Area */}
