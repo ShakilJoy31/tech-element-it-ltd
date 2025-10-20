@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import Button from "../reusable-components/Button";
-import Heading from "../reusable-components/Heading";
-import Paragraph from "../reusable-components/Paragraph";
-import AnimatedText from "../reusable-components/AnimatedText";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/components/ui/label";
-// import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
@@ -18,7 +14,7 @@ import { emailSchema, EmailSchemaData } from "@/schema/email/EmailSchema";
 
 export default function ContactSection() {
   const [createEmailClient, { isLoading }] = useCreateEmailClientMutation();
-  const [submitSuccess,] = useState(false);
+  const [submitSuccess] = useState(false);
 
   const {
     register,
@@ -39,232 +35,267 @@ export default function ContactSection() {
     },
   });
 
-
-const onSubmit = async (data: EmailSchemaData) => {
-  try {
-    const { country, ...rest } = data;
-    const payload = country?.trim() ? { ...rest, country } : rest;
-    const response = await createEmailClient(payload).unwrap();
-    reset();
-    if (response?.success) {
-      toast.success(response.message || "Message sent successfully! We will get back to you soon.", {
-        duration: 5000,
-        position: "top-right",
-      });
-    } 
-    // reset();
-  } catch (error: any) {
-    console.error("Error submitting form:", error);
-
-    toast.error(error?.data?.message || "Failed to send message. Please try again!", {
-      duration: 5000,
-      position: "top-right",
-    });
-  }
-};
-
-
-
+  const onSubmit = async (data: EmailSchemaData) => {
+    try {
+      const { country, ...rest } = data;
+      const payload = country?.trim() ? { ...rest, country } : rest;
+      const response = await createEmailClient(payload).unwrap();
+      reset();
+      if (response?.success) {
+        toast.success(
+          response.message ||
+            "Message sent successfully! We will get back to you soon.",
+          {
+            duration: 5000,
+            position: "top-right",
+          }
+        );
+      }
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      toast.error(
+        error?.data?.message || "Failed to send message. Please try again!",
+        {
+          duration: 5000,
+          position: "top-right",
+        }
+      );
+    }
+  };
 
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-[1280px] mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10">
-        {/* Left Info Section */}
-        <div className="order-2 lg:order-1">
-          <h2 className="text-gray-700 dark:text-gray-300 font-semibold text-base sm:text-lg">Contact</h2>
-          <div className="mt-4 sm:mt-6">
-            <Heading className="text-base sm:text-lg font-medium text-gray-900 dark:text-white">
-              Get in touch
-            </Heading>
-            <Paragraph>
-              <AnimatedText
-                text="We'd love to hear from you! Whether you have a question, suggestion, or just want to say hello, feel free to reach out to us. Our team is here to assist you with any inquiries you may have."
-                loop={false}
-                speed={0.02}
-                className="text-gray-700 dark:text-gray-400 mt-1 sm:mt-2 text-sm sm:text-base leading-relaxed max-w-md"
-              />
-            </Paragraph>
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 max-w-[1280px] mx-auto">
+      <div className="text-center mb-10">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">Contact Us</h2>
+        <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+          Get in touch with us to discuss how we can support your objectives
+        </p>
+      </div>
 
-            <div className="mt-4 sm:mt-6 flex items-center gap-2 sm:gap-3">
-              <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-gray-300" />
-              <span className="font-medium sm:font-semibold text-gray-900 dark:text-white text-sm sm:text-base">
-                techelementit@gmail.com
-              </span>
-            </div>
-
-            <div className="mt-3 sm:mt-4 flex items-start gap-2 sm:gap-3">
-              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-gray-300 mt-0.5 sm:mt-1" />
-              <span className="font-medium sm:font-semibold text-gray-900 dark:text-white text-sm sm:text-base">
-                Lavel, D-15, Lily Pond Center, 3 RK <br />
-                Mission Road, Motijheel, Dhaka-1203
-              </span>
-            </div>
-
-            <button className="mt-6 sm:mt-8 flex items-center gap-2 border dark:border-gray-300 rounded-[12px] sm:rounded-[16px] justify-center w-[140px] sm:w-[163px] h-[40px] sm:h-[46px] text-black dark:text-white dark:hover:text-black hover:cursor-pointer font-medium hover:bg-gray-100 transition text-sm sm:text-base">
-              <Phone className="w-3 h-3 sm:w-4 sm:h-4" /> Call us
-            </button>
-          </div>
-        </div>
-
-        {/* Right Form Section */}
-        <div className="order-1 lg:order-2">
-          <Heading>
-            <AnimatedText
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-[50px] font-semibold text-gray-900 dark:text-white leading-snug"
-              text="Let's drop us a line and get the project started."
-              loop={false}
-            />
-          </Heading>
-
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left: Form */}
+        <div className="bg-[#111827] text-white rounded-xl p-6 sm:p-8 shadow-md border border-gray-800">
+          <h3 className="text-lg font-semibold mb-4">Send us a Message</h3>
           {submitSuccess && (
-            <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
+            <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
               Thank you for your message! We&apos;ll get back to you soon.
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-6 sm:mt-8 md:mt-10 space-y-4 sm:space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 sm:space-y-5"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="firstName" className="text-sm font-medium">
+                <Label htmlFor="firstName" className="text-gray-300">
                   First Name *
                 </Label>
                 <Input
                   id="firstName"
                   {...register("firstName")}
-                  placeholder="Enter first name"
-                  className="mt-1"
+                  placeholder="Enter full name"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
                 />
                 {errors.firstName && (
-                  <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.firstName.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <Label htmlFor="lastName" className="text-sm font-medium">
-                  Last Name
+                <Label htmlFor="lastName" className="text-gray-300">
+                  Last Name *
                 </Label>
                 <Input
                   id="lastName"
                   {...register("lastName")}
                   placeholder="Enter last name"
-                  className="mt-1"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
                 />
                 {errors.lastName && (
-                  <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.lastName.message}
+                  </p>
                 )}
               </div>
+
+             
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <Label htmlFor="email" className="text-sm font-medium">
-                  Email *
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+               <div>
+                <Label htmlFor="email" className="text-gray-300">
+                  Email Address *
                 </Label>
                 <Input
                   id="email"
                   type="email"
                   {...register("email")}
-                  placeholder="Enter email address"
-                  className="mt-1"
+                  placeholder="Enter your email"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-sm font-medium">
-                  Phone *
+                <Label htmlFor="phone" className="text-gray-300">
+                  Phone Number
                 </Label>
                 <Input
                   id="phone"
                   maxLength={11}
                   {...register("phone")}
-                  placeholder="Enter 11-digit phone number"
-                  className="mt-1"
+                  placeholder="+8801XXXXXXXXX"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
                   onInput={(e) => {
-                    // Remove any non-digit characters
-                    e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '');
+                    e.currentTarget.value = e.currentTarget.value.replace(
+                      /\D/g,
+                      ""
+                    );
                   }}
                 />
                 {errors.phone && (
-                  <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.phone.message}
+                  </p>
                 )}
               </div>
             </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            <div>
-              <Label htmlFor="subject" className="text-sm font-medium">
-                Subject *
-              </Label>
-              <Input
-                id="subject"
-                {...register("subject")}
-                placeholder="Enter subject"
-                className="mt-1"
-              />
-              {errors.subject && (
-                <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>
-              )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+               <div>
+                <Label htmlFor="subject" className="text-gray-300">
+                  Subject
+                </Label>
+                <Input
+                  id="subject"
+                  {...register("subject")}
+                  placeholder="Enter subject name"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
+                />
+                {errors.subject && (
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.subject.message}
+                  </p>
+                )}
+              </div>
+
+               <div>
+                <Label htmlFor="projectName" className="text-gray-300">
+                  Project Name
+                </Label>
+                <Input
+                  id="projectName"
+                  {...register("projectName")}
+                  placeholder="Enter project name"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
+                />
+                {errors.projectName && (
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.projectName.message}
+                  </p>
+                )}
+              </div>
             </div>
 
             <div>
-              <Label htmlFor="projectName" className="text-sm font-medium">
-                Project Name *
-              </Label>
-              <Input
-                id="projectName"
-                {...register("projectName")}
-                placeholder="Enter project name"
-                className="mt-1"
-              />
-              {errors.projectName && (
-                <p className="text-red-500 text-sm mt-1">{errors.projectName.message}</p>
-              )}
-            </div>
-</div>
-            <div>
-              <Label htmlFor="country" className="text-sm font-medium">
+              <Label htmlFor="country" className="text-gray-300">
                 Country
               </Label>
               <Input
                 id="country"
                 {...register("country")}
-                placeholder="Enter country"
-                className="mt-1"
+                placeholder="Enter a country name"
+                className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
               />
               {errors.country && (
-                <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.country.message}
+                </p>
               )}
             </div>
 
             <div>
-              <Label htmlFor="message" className="text-sm font-medium">
+              <Label htmlFor="message" className="text-gray-300">
                 Message *
               </Label>
               <textarea
                 id="message"
                 {...register("message")}
-                placeholder="Enter your message"
                 rows={3}
-                className="w-full p-2 border rounded"
+                placeholder="Tell us about your inquiry..."
+                className="w-full mt-1 p-2 rounded-md border border-gray-600 bg-transparent text-white focus:border-yellow-400 focus:ring-0"
               />
               {errors.message && (
-                <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.message.message}
+                </p>
               )}
             </div>
 
-            <div className="flex justify-end pt-4">
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="bg-[#1776BB] hover:cursor-pointer text-white font-medium w-full sm:w-[214px] h-[40px] sm:h-[48px] rounded-[12px] sm:rounded-[16px] transition text-sm sm:text-base"
-              >
-                {isLoading ? "Sending..." : "Send Message"}
-              </Button>
-            </div>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-[#1776BB] hover:cursor-pointer text-white font-medium rounded-md h-[45px] mt-4 transition"
+            >
+              {isLoading ? "Sending..." : "Submit Message"}
+            </Button>
           </form>
+        </div>
+
+        {/* Right: Contact Info */}
+        <div className="space-y-6">
+          <div className="bg-gradient-to-b from-yellow-100 to-yellow-50 border border-yellow-200 rounded-xl p-6 shadow-md">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Contact Information
+            </h3>
+
+            <div className="space-y-4 text-gray-800 text-sm">
+              <div>
+                <p className="font-semibold">Office Address</p>
+                <p>Dhaka, Bangladesh</p>
+              </div>
+
+              <div>
+                <p className="font-semibold flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-[#1776BB]" /> Phone
+                </p>
+                <p>+880 1601-590591</p>
+                <p>+880 1601-590591</p>
+              </div>
+
+              <div>
+                <p className="font-semibold flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-[#1776BB]" /> Email
+                </p>
+                <p>info@radiantcorp.com</p>
+                <p>contact@radiantcorp.com</p>
+              </div>
+
+              <div>
+                <p className="font-semibold">Business Hours</p>
+                <p>Sunday – Thursday: 9:00 AM – 6:00 PM</p>
+                <p>Friday – Saturday: Closed</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-[#111827] text-gray-200 p-6 rounded-xl border border-gray-800">
+            <h4 className="text-lg font-semibold text-[#1776BB] mb-2">
+              Quick Response
+            </h4>
+            <p className="text-sm leading-relaxed">
+              We typically respond to all inquiries within 24–48 hours during
+              business days. For urgent matters, please call our office
+              directly.
+            </p>
+          </div>
         </div>
       </div>
     </section>

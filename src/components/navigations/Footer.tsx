@@ -1,5 +1,5 @@
 // components/Footer.tsx
-import { FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebookF } from "react-icons/fa";
+import { FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebookF, FaPhone } from "react-icons/fa";
 import { MdLocationOn, MdEmail } from "react-icons/md";
 import Image from "next/image";
 // import siteLogo from "@/assets/Icons/Site-icon.png";
@@ -32,6 +32,10 @@ export default function Footer() {
             </Paragraph>
           </div>
           
+          <div className="flex items-center gap-2 mb-4 md:mb-2">
+            <FaPhone className="text-[#1776BB] rotate-90 flex-shrink-0" />
+            <Paragraph className="text-xs md:text-sm">+880 1601-590591</Paragraph>
+          </div>
           <div className="flex items-center gap-2 mb-4 md:mb-0">
             <MdEmail className="text-[#1776BB] text-lg md:text-xl flex-shrink-0" />
             <Paragraph className="text-xs md:text-sm">techelementit@gmail.com</Paragraph>
