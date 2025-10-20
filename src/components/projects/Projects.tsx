@@ -1,7 +1,7 @@
 // components/ProjectBanner.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProjectCard from "./ProjectCard";
 import { GoDotFill } from "react-icons/go";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import productImage from "@/assets/Projects/Screenshot (1235).png";
 import productImage2 from "@/assets/Projects/projectImagee (1).png";
 import productImage3 from "@/assets/Projects/Screenshot (1236).png";
 import productImage4 from "@/assets/Projects/Screenshot (1234).png";
+import { useGetAllProjectQuery } from "@/redux/api/project/projectApi";
 
 // Project data interface
 interface Project {
@@ -18,12 +19,28 @@ interface Project {
     subtitle: string;
     description: string;
     category: string;
+    liveLink: string;
     image: string;
 }
 
 export default function Projects() {
     const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
-    const router = useRouter();
+    const { data, isError, refetch } = useGetAllProjectQuery({
+        page: 1,
+        size: 10,
+        search: '',
+    }); 
+
+
+    useEffect(() => {
+        refetch();
+    }, [refetch]);
+
+    console.log(isError)
+
+    console.log(data);
+
+    console.log('dfsgdgdfs')
 
     // Real project data array
     const projects: Project[] = [
@@ -31,6 +48,7 @@ export default function Projects() {
             id: 1,
             title: "KRY",
             subtitle: "- E-Commerce",
+            liveLink: 'https://kryinternational.com',
             description: "Revolutionizing online shopping with a sleek, user-friendly platform featuring secure payments, advanced search filters, and personalized recommendations.",
             category: "App Development",
             image: productImage.src
@@ -39,6 +57,7 @@ export default function Projects() {
             id: 2,
             title: "School Management",
             subtitle: "- Educational Software",
+            liveLink: 'https://brack.school.techelementbd.com',
             description: "A comprehensive fitness app with workout tracking, meal planning, and progress analytics to help users achieve their health goals.",
             category: "UI/UX Design",
             image: productImage2.src
@@ -47,6 +66,7 @@ export default function Projects() {
             id: 3,
             title: "Iconic",
             subtitle: "- Ticket Management Software",
+            liveLink: 'https://iconicticket.com',
             description: "An intuitive IoT solution that allows users to control their home appliances, security systems, and energy usage from a single interface.",
             category: "Technology",
             image: productImage3.src
@@ -55,6 +75,7 @@ export default function Projects() {
             id: 4,
             title: "Proyojon Sobar",
             subtitle: "- E-Commerce",
+            liveLink: 'http://proyojonsober.com.bd',
             description: "A powerful financial analytics dashboard that provides real-time insights into spending patterns, investments, and budget management.",
             category: "UI/UX Design",
             image: productImage4.src
@@ -63,6 +84,7 @@ export default function Projects() {
             id: 5,
             title: "Educational Platform for",
             subtitle: "Remote Learning",
+            liveLink: '',
             description: "An interactive learning management system with video conferencing, assignment tracking, and collaborative tools for students and educators.",
             category: "App Development",
             image: productImage.src
@@ -71,6 +93,7 @@ export default function Projects() {
             id: 6,
             title: "Travel Planning",
             subtitle: "AI Assistant",
+            liveLink: '',
             description: "An intelligent travel planner that uses machine learning to suggest personalized itineraries based on user preferences and budget constraints.",
             category: "Technology",
             image: productImage.src
@@ -114,8 +137,8 @@ export default function Projects() {
                                     }
                                 }}
                                 className={`flex-shrink-0 px-4 py-2 rounded-lg hover:cursor-pointer font-semibold transition-colors duration-200 ${selectedCategory === projectCategory
-                                        ? "bg-[#1776BB] text-white"
-                                        : "text-gray-700 dark:text-gray-200"
+                                    ? "bg-[#1776BB] text-white"
+                                    : "text-gray-700 dark:text-gray-200"
                                     }`}
                             >
                                 {projectCategory}
@@ -128,12 +151,14 @@ export default function Projects() {
             {/* Product Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProjects.map((project) => (
-                    <div key={project.id} onClick={() => router.push(`/projects/project-details/${project.id}`)} className="hover:cursor-pointer">
+                    <div key={project.id} className="hover:cursor-pointer">
                         <ProjectCard
-                            title={project.title}
-                            subtitle={project.subtitle}
-                            description={project.description}
-                            image={project.image}
+                            title={project?.title}
+                            id={project?.id}
+                            subtitle={project?.subtitle}
+                            description={project?.description}
+                            image={project?.image}
+                            liveLink={project?.liveLink}
                         />
                     </div>
                 ))}

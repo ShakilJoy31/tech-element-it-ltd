@@ -6,7 +6,7 @@ import AnimatedText from "../reusable-components/AnimatedText";
 
 export default function ContactBanner() {
     return (
-        <section className="bg-gradient-to-b from-[#003D64] to-[#0B0B2D] px-4 py-12 md:py-16 lg:py-24">
+        <section className="bg-gradient-to-b from-[#003D64] to-[#0B0B2D] px-4 py-8 md:py-12 lg:py-16">
             <div className="max-w-[1280px] mx-auto">
                 <div className="grid md:grid-cols-2 items-center">
                     <div className="block mx-auto ">

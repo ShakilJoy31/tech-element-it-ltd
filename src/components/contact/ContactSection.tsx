@@ -11,10 +11,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/components/ui/label";
 // import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { useCreateEmailClientMutation } from "@/store/api/email/emailApi";
-import { emailSchema, EmailSchemaData } from "@/schema/email/EmailSchema";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
+import { useCreateEmailClientMutation } from "@/redux/api/email/emailApi";
+import { emailSchema, EmailSchemaData } from "@/schema/email/EmailSchema";
 
 export default function ContactSection() {
   const [createEmailClient, { isLoading }] = useCreateEmailClientMutation();
@@ -35,16 +35,16 @@ export default function ContactSection() {
       message: "",
       phone: "",
       country: "",
-      projectName: "", 
+      projectName: "",
     },
   });
 
 
 const onSubmit = async (data: EmailSchemaData) => {
-    // console.log("Form Data Submitted: ", data);
   try {
-    const response = await createEmailClient(data).unwrap();
-    // console.log("Response from createEmailClient:", response);
+    const { country, ...rest } = data;
+    const payload = country?.trim() ? { ...rest, country } : rest;
+    const response = await createEmailClient(payload).unwrap();
     reset();
     if (response?.success) {
       toast.success(response.message || "Message sent successfully! We will get back to you soon.", {

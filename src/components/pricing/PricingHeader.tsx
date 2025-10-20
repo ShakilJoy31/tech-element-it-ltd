@@ -262,10 +262,10 @@ export default function PricingHeader() {
                 {filteredPricingPlans.length === 0 ? (
                     <div className="text-center py-12">
                         <p className="text-gray-500 dark:text-gray-400 text-lg">
-                            No plans found for &quot;{selectedCategory}&quot;
+                            No plans found for {selectedCategory}
                         </p>
                         <Button
-                            onClick={() => setSelectedCategory('All Categories')} 
+                            onClick={() => setSelectedCategory('All Categories')}
                             className="mt-4 bg-[#1776BB] text-white px-6 py-2 rounded-lg hover:bg-[#1466a3] transition-colors"
                         >
                             Show All Plans
