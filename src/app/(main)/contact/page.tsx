@@ -1,4 +1,4 @@
-import ContactBanner from "@/components/contact/ContactBanner";
+// import ContactBanner from "@/components/contact/ContactBanner";
 import ContactSection from "@/components/contact/ContactSection";
 import { generateDynamicMetadata } from "@/metadata/generateMetadata";
 
@@ -17,7 +17,7 @@ export async function generateMetadata() {
 export default function ContactComponent() {
   return (
     <div className="mt-6 ">
-      <ContactBanner></ContactBanner>
+      {/* <ContactBanner></ContactBanner> */}
       <ContactSection></ContactSection>
     </div>
   );

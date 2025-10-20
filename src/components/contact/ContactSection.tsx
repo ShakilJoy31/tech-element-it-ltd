@@ -192,7 +192,8 @@ const onSubmit = async (data: EmailSchemaData) => {
                 )}
               </div>
             </div>
-
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <Label htmlFor="subject" className="text-sm font-medium">
                 Subject *
@@ -222,7 +223,7 @@ const onSubmit = async (data: EmailSchemaData) => {
                 <p className="text-red-500 text-sm mt-1">{errors.projectName.message}</p>
               )}
             </div>
-
+</div>
             <div>
               <Label htmlFor="country" className="text-sm font-medium">
                 Country
