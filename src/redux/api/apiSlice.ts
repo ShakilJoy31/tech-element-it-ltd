@@ -3,16 +3,21 @@ import { shareWithCookies } from "@/utils/helper/shareWithCookies";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const BASE_URL = appConfiguration.baseUrl;
+// Create a more specific base query for debugging
 const customBaseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders(headers) {
-    headers.set(
-      "Authorization",
-      `Bearer ${shareWithCookies("get", `${appConfiguration.appCode}token`)}`
-    );
+    const token = shareWithCookies("get", `${appConfiguration.appCode}token`);
+    console.log('Base URL:', BASE_URL);
+    console.log('Token:', token);
+    
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
     return headers;
   },
 });
+
 export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: customBaseQuery,

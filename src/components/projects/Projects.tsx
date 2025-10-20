@@ -1,18 +1,10 @@
-// components/ProjectBanner.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import ProjectCard from "./ProjectCard";
 import { GoDotFill } from "react-icons/go";
-import { useRouter } from "next/navigation";
 import Button from "../reusable-components/Button";
-import productImage from "@/assets/Projects/Screenshot (1235).png";
-import productImage2 from "@/assets/Projects/projectImagee (1).png";
-import productImage3 from "@/assets/Projects/Screenshot (1236).png";
-import productImage4 from "@/assets/Projects/Screenshot (1234).png";
-import { useGetAllProjectQuery } from "@/redux/api/project/projectApi";
 
-// Project data interface
 interface Project {
     id: number;
     title: string;
@@ -23,111 +15,110 @@ interface Project {
     image: string;
 }
 
+interface ApiProject {
+    id: number;
+    name: string;
+    description: string;
+    link: string;
+    image: string;
+    video: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export default function Projects() {
     const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
-    const { data, isError, refetch } = useGetAllProjectQuery({
-        page: 1,
-        size: 10,
-        search: '',
-    }); 
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-
+    // Fetch projects on component mount
     useEffect(() => {
-        refetch();
-    }, [refetch]);
+        const fetchProjects = async () => {
+            try {
+                setIsLoading(true);
+                const response = await fetch('https://tech-element-backend.vercel.app/api/v1/project/get-project-all?page=1&size=10');
 
-    console.log(isError)
+                if (!response.ok) {
+                    throw new Error('Failed to fetch projects');
+                }
 
-    console.log(data);
+                const data = await response.json();
 
-    console.log('dfsgdgdfs')
+                if (data.success) {
+                    // Transform API data to match your component structure
+                    const transformedProjects: Project[] = data.data.map((project: ApiProject, index: number) => ({
+                        id: project.id,
+                        title: project.name,
+                        subtitle: "- Project",
+                        description: project.description,
+                        category: ['UI/UX Design', 'Technology', 'App Development'][index % 3] || 'Technology',
+                        liveLink: project.link,
+                        image: project.image
+                    }));
 
-    // Real project data array
-    const projects: Project[] = [
-        {
-            id: 1,
-            title: "KRY",
-            subtitle: "- E-Commerce",
-            liveLink: 'https://kryinternational.com',
-            description: "Revolutionizing online shopping with a sleek, user-friendly platform featuring secure payments, advanced search filters, and personalized recommendations.",
-            category: "App Development",
-            image: productImage.src
-        },
-        {
-            id: 2,
-            title: "School Management",
-            subtitle: "- Educational Software",
-            liveLink: 'https://brack.school.techelementbd.com',
-            description: "A comprehensive fitness app with workout tracking, meal planning, and progress analytics to help users achieve their health goals.",
-            category: "UI/UX Design",
-            image: productImage2.src
-        },
-        {
-            id: 3,
-            title: "Iconic",
-            subtitle: "- Ticket Management Software",
-            liveLink: 'https://iconicticket.com',
-            description: "An intuitive IoT solution that allows users to control their home appliances, security systems, and energy usage from a single interface.",
-            category: "Technology",
-            image: productImage3.src
-        },
-        {
-            id: 4,
-            title: "Proyojon Sobar",
-            subtitle: "- E-Commerce",
-            liveLink: 'http://proyojonsober.com.bd',
-            description: "A powerful financial analytics dashboard that provides real-time insights into spending patterns, investments, and budget management.",
-            category: "UI/UX Design",
-            image: productImage4.src
-        },
-        {
-            id: 5,
-            title: "Educational Platform for",
-            subtitle: "Remote Learning",
-            liveLink: '',
-            description: "An interactive learning management system with video conferencing, assignment tracking, and collaborative tools for students and educators.",
-            category: "App Development",
-            image: productImage.src
-        },
-        {
-            id: 6,
-            title: "Travel Planning",
-            subtitle: "AI Assistant",
-            liveLink: '',
-            description: "An intelligent travel planner that uses machine learning to suggest personalized itineraries based on user preferences and budget constraints.",
-            category: "Technology",
-            image: productImage.src
-        }
-    ];
+                    setProjects(transformedProjects);
+                } else {
+                    throw new Error(data.message || 'Failed to fetch projects');
+                }
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'An error occurred');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProjects();
+    }, []);
+
+    console.log(projects);
 
     // Filter projects based on selected category
     const filteredProjects = selectedCategory === 'All Categories'
         ? projects
         : projects.filter(project => project.category === selectedCategory);
 
+    // Get unique categories
+    const categories = ['All Categories', ...new Set(projects.map(project => project.category))];
+
+    if (isLoading) {
+        return (
+            <section className="max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
+                <div className="text-center py-12">
+                    <p className="text-gray-500 dark:text-gray-400">Loading projects...</p>
+                </div>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section className="max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
+                <div className="text-center py-12">
+                    <p className="text-red-500 dark:text-red-400">Error: {error}</p>
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section className="max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
-            {/* Filter Buttons - Made horizontally scrollable on mobile */}
+            {/* ... rest of your JSX remains the same ... */}
+            {/* Filter Buttons */}
             <div className="relative mb-8">
                 <div className="flex overflow-x-auto pb-2 hide-scrollbar md:overflow-visible">
                     <div className="flex space-x-2 min-w-max md:min-w-0 bg-gray-50 dark:bg-gray-900 rounded-lg p-1 shadow-sm">
-                        {['All Categories', 'UI/UX Design', 'Technology', 'App Development'].map((projectCategory) => (
+                        {categories.map((projectCategory) => (
                             <Button
                                 key={projectCategory}
                                 onClick={(e) => {
                                     setSelectedCategory(projectCategory);
-
-                                    // Scroll the button into view if it's partially visible
                                     const button = e.currentTarget;
                                     const buttonRect = button.getBoundingClientRect();
-
-                                    // Check if button is partially out of view on the right or left
                                     const isPartiallyVisible = (
                                         buttonRect.left >= 0 &&
                                         buttonRect.right <= window.innerWidth
                                     );
-
-                                    // If not fully visible, scroll it into view
                                     if (!isPartiallyVisible) {
                                         button.scrollIntoView({
                                             behavior: 'smooth',
@@ -153,12 +144,12 @@ export default function Projects() {
                 {filteredProjects.map((project) => (
                     <div key={project.id} className="hover:cursor-pointer">
                         <ProjectCard
-                            title={project?.title}
-                            id={project?.id}
-                            subtitle={project?.subtitle}
-                            description={project?.description}
-                            image={project?.image}
-                            liveLink={project?.liveLink}
+                            title={project.title}
+                            id={project.id}
+                            subtitle={project.subtitle}
+                            description={project.description}
+                            image={project.image}
+                            liveLink={project.liveLink}
                         />
                     </div>
                 ))}
@@ -172,7 +163,6 @@ export default function Projects() {
                 </Button>
             </div>
 
-            {/* Add this to your global CSS or in a style tag */}
             <style jsx>{`
                 .hide-scrollbar::-webkit-scrollbar {
                     display: none;
