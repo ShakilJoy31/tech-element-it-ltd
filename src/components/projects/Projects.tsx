@@ -1,24 +1,13 @@
 // components/ProjectBanner.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import ProjectCard from "./ProjectCard";
 import { GoDotFill } from "react-icons/go";
 import Button from "../reusable-components/Button";
 import { ProjectsResponse } from "@/utils/helper/projectDataFetching";
 
-// Project data interface matching your API
-interface Project {
-    id: number;
-    name: string;
-    description: string;
-    link: string;
-    image: string;
-    video: string;
-    // You can add these fields if needed for UI
-    category?: string;
-    subtitle?: string;
-}
+import { Project } from "@/utils/helper/projectDataFetching";
 
 interface ProjectsProps {
     projectsData?: ProjectsResponse;
@@ -26,41 +15,49 @@ interface ProjectsProps {
 
 export default function Projects({ projectsData }: ProjectsProps) {
     const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
+
+    console.log(projectsData);
     
     // Transform API data to match your component's needs
     const transformApiData = (apiProjects: Project[]) => {
-        // Define categories for your projects - you might want to get this from API or define manually
-        const categories = ['UI/UX Design', 'Technology', 'App Development'];
-        
-        return apiProjects.map((project, index) => ({
+        return apiProjects.map((project) => ({
             id: project.id,
             title: project.name,
-            subtitle: "- Project", // You can customize this based on your needs
+            subtitle: "- Project",
             description: project.description,
-            category: categories[index % categories.length] || 'Technology', // Fallback category
+            category: project.category,
             liveLink: project.link,
             image: project.image
         }));
     };
 
     // Use the transformed API data
-    const projects = transformApiData(projectsData.data || []);
+    const projects = useMemo(() => 
+        transformApiData(projectsData?.data || []), 
+        [projectsData]
+    );
 
     // Get unique categories from projects for filter buttons
-    const categories = ['All Categories', ...new Set(projects.map(project => project.category))];
+    const categories = useMemo(() => {
+        const uniqueCategories = new Set(projects.map(project => project.category));
+        return ['All Categories', ...Array.from(uniqueCategories)];
+    }, [projects]);
 
     // Filter projects based on selected category
-    const filteredProjects = selectedCategory === 'All Categories'
-        ? projects
-        : projects.filter(project => project.category === selectedCategory);
+    const filteredProjects = useMemo(() => 
+        selectedCategory === 'All Categories'
+            ? projects
+            : projects.filter(project => project.category === selectedCategory),
+        [selectedCategory, projects]
+    );
 
     // Show loading state if no data
-    if (!projectsData.success || projects.length === 0) {
+    if (!projectsData?.success || projects.length === 0) {
         return (
             <section className="max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
                 <div className="text-center py-12">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {projectsData.message || "No projects found."}
+                        {projectsData?.message || "No projects found."}
                     </p>
                 </div>
             </section>
@@ -125,6 +122,15 @@ export default function Projects({ projectsData }: ProjectsProps) {
                     </div>
                 ))}
             </div>
+
+            {/* Show message when no projects match the selected category */}
+            {filteredProjects.length === 0 && selectedCategory !== 'All Categories' && (
+                <div className="text-center py-12">
+                    <p className="text-gray-500 dark:text-gray-400">
+                        No projects found in the &quot;{selectedCategory}&quot; category.
+                    </p>
+                </div>
+            )}
 
             {/* Load More Button - You can implement pagination later */}
             {projectsData.meta && projectsData.meta.totalPage > 1 && (
