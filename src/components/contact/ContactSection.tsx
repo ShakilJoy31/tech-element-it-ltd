@@ -66,16 +66,16 @@ export default function ContactSection() {
   return (
     <section className="w-full px-4 sm:px-6 lg:px-8 py-12 max-w-[1280px] mx-auto">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Contact Us</h2>
-        <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-300 mb-2">Contact Us</h2>
+        <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
           Get in touch with us to discuss how we can support your objectives
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left: Form */}
-        <div className="bg-[#111827] text-white rounded-xl p-6 sm:p-8 shadow-md border border-gray-800">
-          <h3 className="text-lg font-semibold mb-4">Send us a Message</h3>
+        <div className="bg-gray-100 dark:bg-[#111827] text-white rounded-xl p-6 sm:p-8 shadow-md border border-gray-800">
+          <h3 className="text-lg font-semibold mb-4 text-black dark:text-white ">Send us a Message</h3>
           {submitSuccess && (
             <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
               Thank you for your message! We&apos;ll get back to you soon.
@@ -88,14 +88,14 @@ export default function ContactSection() {
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="firstName" className="text-gray-300">
+                <Label htmlFor="firstName" className="text-gray-900 dark:text-gray-300">
                   First Name *
                 </Label>
                 <Input
                   id="firstName"
                   {...register("firstName")}
                   placeholder="Enter full name"
-                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-black dark:text-white"
                 />
                 {errors.firstName && (
                   <p className="text-red-400 text-sm mt-1">
@@ -105,14 +105,14 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <Label htmlFor="lastName" className="text-gray-300">
+                <Label htmlFor="lastName" className="text-gray-900 dark:text-gray-300">
                   Last Name *
                 </Label>
                 <Input
                   id="lastName"
                   {...register("lastName")}
                   placeholder="Enter last name"
-                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-black dark:text-white"
                 />
                 {errors.lastName && (
                   <p className="text-red-400 text-sm mt-1">
@@ -126,7 +126,7 @@ export default function ContactSection() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                <div>
-                <Label htmlFor="email" className="text-gray-300">
+                <Label htmlFor="email" className="text-gray-900 dark:text-gray-300">
                   Email Address *
                 </Label>
                 <Input
@@ -134,7 +134,7 @@ export default function ContactSection() {
                   type="email"
                   {...register("email")}
                   placeholder="Enter your email"
-                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-black dark:text-white"
                 />
                 {errors.email && (
                   <p className="text-red-400 text-sm mt-1">
@@ -144,7 +144,7 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-gray-300">
+                <Label htmlFor="phone" className="text-gray-900 dark:text-gray-300">
                   Phone Number
                 </Label>
                 <Input
@@ -152,7 +152,7 @@ export default function ContactSection() {
                   maxLength={11}
                   {...register("phone")}
                   placeholder="+8801XXXXXXXXX"
-                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-black dark:text-white"
                   onInput={(e) => {
                     e.currentTarget.value = e.currentTarget.value.replace(
                       /\D/g,
@@ -170,14 +170,14 @@ export default function ContactSection() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                <div>
-                <Label htmlFor="subject" className="text-gray-300">
+                <Label htmlFor="subject" className="text-gray-900 dark:text-gray-300">
                   Subject
                 </Label>
                 <Input
                   id="subject"
                   {...register("subject")}
                   placeholder="Enter subject name"
-                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-black dark:text-white"
                 />
                 {errors.subject && (
                   <p className="text-red-400 text-sm mt-1">
@@ -187,14 +187,14 @@ export default function ContactSection() {
               </div>
 
                <div>
-                <Label htmlFor="projectName" className="text-gray-300">
+                <Label htmlFor="projectName" className="text-gray-900 dark:text-gray-300">
                   Project Name
                 </Label>
                 <Input
                   id="projectName"
                   {...register("projectName")}
                   placeholder="Enter project name"
-                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
+                  className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-black dark:text-white"
                 />
                 {errors.projectName && (
                   <p className="text-red-400 text-sm mt-1">
@@ -205,14 +205,14 @@ export default function ContactSection() {
             </div>
 
             <div>
-              <Label htmlFor="country" className="text-gray-300">
+              <Label htmlFor="country" className="text-gray-900 dark:text-gray-300">
                 Country
               </Label>
               <Input
                 id="country"
                 {...register("country")}
                 placeholder="Enter a country name"
-                className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-white"
+                className="mt-1 bg-transparent border-gray-600 focus:border-yellow-400 text-black dark:text-white"
               />
               {errors.country && (
                 <p className="text-red-400 text-sm mt-1">
@@ -222,7 +222,7 @@ export default function ContactSection() {
             </div>
 
             <div>
-              <Label htmlFor="message" className="text-gray-300">
+              <Label htmlFor="message" className="text-gray-900 dark:text-gray-300 ">
                 Message *
               </Label>
               <textarea
@@ -230,7 +230,7 @@ export default function ContactSection() {
                 {...register("message")}
                 rows={3}
                 placeholder="Tell us about your inquiry..."
-                className="w-full mt-1 p-2 rounded-md border border-gray-600 bg-transparent text-white focus:border-yellow-400 focus:ring-0"
+                className="w-full mt-1 p-2 rounded-md border border-gray-600 bg-transparent text-black dark:text-white focus:border-yellow-400 focus:ring-0"
               />
               {errors.message && (
                 <p className="text-red-400 text-sm mt-1">
@@ -251,7 +251,7 @@ export default function ContactSection() {
 
         {/* Right: Contact Info */}
         <div className="space-y-6">
-          <div className="bg-gradient-to-b from-yellow-100 to-yellow-50 border border-yellow-200 rounded-xl p-6 shadow-md">
+          <div className="bg-gradient-to-b from-orange-400 to-white border border-orange-500 rounded-xl p-6 shadow-md">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Contact Information
             </h3>

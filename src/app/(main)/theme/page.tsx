@@ -2,7 +2,6 @@ import SignupSection from "@/components/projects/SignupSection";
 import TemplateFeatures from "@/components/theme/TemplateFeatures";
 import TemplateShowcase from "@/components/theme/TemplateShowcase";
 import TemplateStats from "@/components/theme/TemplateStats";
-import ThemeBanner from "@/components/theme/ThemeBanner";
 import { generateDynamicMetadata } from "@/metadata/generateMetadata";
 
 // Define the theme interface based on your API response
@@ -72,7 +71,7 @@ const ThemesPage = async () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
-      <ThemeBanner />
+      {/* <ThemeBanner /> */}
       {/* Pass the fetched data to TemplateShowcase component */}
       <TemplateShowcase themesData={themesData} />
       <TemplateFeatures />

@@ -35,7 +35,7 @@ export default function RootLayout({
         <Providers>
           {" "}
           <ThemeProvider
-            defaultTheme="light"
+            defaultTheme="dark"
             storageKey={`${appConfiguration.appCode}theme`}
           >
             <LocaleProvider>{children}</LocaleProvider>
