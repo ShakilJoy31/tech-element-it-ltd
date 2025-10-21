@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ExternalLink, ShoppingCart, Star } from "lucide-react";
@@ -14,6 +14,7 @@ export interface Theme {
   description: string;
   link: string;
   image: string;
+  category: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -40,7 +41,7 @@ const defaultTemplates = [
     {
         id: 1,
         name: "Borcelle E-Commerce",
-        category: "E-Commerce",
+        category: "eCommerce & Marketplace",
         description: "A sleek, modern e-commerce template with advanced product filtering, cart functionality, and seamless checkout process.",
         image: "/Project-Screenshot/e-commerce.png",
         liveUrl: "https://e-commerce-template-olive-seven.vercel.app",
@@ -64,7 +65,7 @@ const defaultTemplates = [
     {
         id: 3,
         name: "Fashnova",
-        category: "E-Commerce",
+        category: "eCommerce & Marketplace",
         description: "High-tech template for electronics stores with comparison tools, tech specs, and customer support integration.",
         image: "/Project-Screenshot/fashinova.png",
         liveUrl: "https://fashnova-kappa.vercel.app",
@@ -116,20 +117,22 @@ function transformApiDataToTemplates(apiData: Theme[]) {
   return apiData.map(theme => ({
     id: theme.id,
     name: theme.name,
-    category: "E-Commerce", // You might want to add category to your API or derive it
+    category: theme.category,
     description: theme.description,
     image: theme.image,
     liveUrl: theme.link,
-    price: "$79", // Default price or add to API
-    features: ["Responsive Design", "Modern UI", "Fast Performance"], // Default features or add to API
-    rating: 4.8, // Default rating or add to API
-    sales: 500 // Default sales or add to API
+    price: "$79",
+    features: ["Responsive Design", "Modern UI", "Fast Performance"],
+    rating: 4.8,
+    sales: 500
   }));
 }
 
 export default function TemplateShowcase({ themesData }: TemplateShowcaseProps) {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [hoveredTemplate, setHoveredTemplate] = useState<number | null>(null);
+
+    console.log(themesData)
 
     const router = useRouter();
 
@@ -140,9 +143,19 @@ export default function TemplateShowcase({ themesData }: TemplateShowcaseProps) 
 
     const allTemplates = apiTemplates.length > 0 ? apiTemplates : defaultTemplates;
 
-    const filteredTemplates = selectedCategory === 'All'
-        ? allTemplates
-        : allTemplates.filter(template => template.category === selectedCategory);
+    // Get unique categories from templates
+    const categories = useMemo(() => {
+        const uniqueCategories = new Set(allTemplates.map(template => template.category));
+        return ['All', ...Array.from(uniqueCategories)];
+    }, [allTemplates]);
+
+    // Filter templates based on selected category
+    const filteredTemplates = useMemo(() => 
+        selectedCategory === 'All'
+            ? allTemplates
+            : allTemplates.filter(template => template.category === selectedCategory),
+        [selectedCategory, allTemplates]
+    );
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -176,7 +189,7 @@ export default function TemplateShowcase({ themesData }: TemplateShowcaseProps) 
                 <div className="relative mb-8">
                     <div className="flex overflow-x-auto pb-2 hide-scrollbar md:overflow-visible">
                         <div className="flex space-x-2 min-w-max md:min-w-0 bg-gray-50 dark:bg-gray-900 rounded-lg p-1 shadow-sm">
-                            {['All', 'E-Commerce', 'Organic Food', 'Restaurant', 'Fashion', 'Showroom'].map((projectCategory) => (
+                            {categories.map((projectCategory) => (
                                 <Button
                                     key={projectCategory}
                                     onClick={(e) => {
@@ -342,7 +355,7 @@ export default function TemplateShowcase({ themesData }: TemplateShowcaseProps) 
                         className="text-center py-12"
                     >
                         <p className="text-gray-500 dark:text-gray-400 text-lg">
-                            No templates found for the selected category.
+                            No templates found for the &quot;{selectedCategory}&quot; category.
                         </p>
                     </motion.div>
                 )}

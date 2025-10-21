@@ -12,6 +12,7 @@ export interface Theme {
   link: string;
   image: string;
   createdAt: string;
+  category: string;
   updatedAt: string;
 }
 

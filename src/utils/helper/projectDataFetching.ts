@@ -1,5 +1,6 @@
 
 export interface Project {
+  category: string;
   id: number;
   name: string;
   description: string;
