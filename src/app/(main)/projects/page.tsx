@@ -3,6 +3,7 @@ import Projects from "@/components/projects/Projects";
 import RecentWork from "@/components/projects/RecentWork";
 import SignupSection from "@/components/projects/SignupSection";
 import { generateDynamicMetadata } from "@/metadata/generateMetadata";
+import getProjects from "@/utils/helper/projectDataFetching";
 
 export async function generateMetadata() {
     return generateDynamicMetadata({
@@ -15,13 +16,17 @@ export async function generateMetadata() {
     });
 }
 
-const ProjectsPage = () => {
+const ProjectsPage = async () => {
+  // Fetch projects data on the server
+  const projectsData = await getProjects();
+
   return (
     <div className="">
-      <ProjectBanner></ProjectBanner>
-      <RecentWork></RecentWork>
-      <Projects></Projects>
-      <SignupSection></SignupSection>
+      <ProjectBanner />
+      <RecentWork />
+      {/* Pass the fetched data to Projects component */}
+      <Projects projectsData={projectsData} />
+      <SignupSection />
     </div>
   )
 }

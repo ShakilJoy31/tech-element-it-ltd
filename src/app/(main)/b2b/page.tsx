@@ -7,6 +7,7 @@ import ReviewSection from "@/components/home/ReviewSection";
 import Projects from "@/components/projects/Projects";
 import WhoWeAre from "@/components/projects/WhoWeAre";
 import { generateDynamicMetadata } from "@/metadata/generateMetadata";
+import getProjects from "@/utils/helper/projectDataFetching";
 
 export async function generateMetadata() {
     return generateDynamicMetadata({
@@ -19,13 +20,14 @@ export async function generateMetadata() {
     });
 }
 
-export default function B2BComponent() {
+export default async function B2BComponent() {
+     const projectsData = await getProjects();
     return (
         <div>
             <B2BBanner></B2BBanner>
             <WhyChooseUs></WhyChooseUs>
             <TermsAndConditions></TermsAndConditions>
-            <Projects></Projects>
+            <Projects projectsData={projectsData}></Projects>
             <WhoWeAre></WhoWeAre>
             <CustomServices></CustomServices>
             <div className="lg:mx-4 md:mx-2 mx-1">

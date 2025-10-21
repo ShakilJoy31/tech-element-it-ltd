@@ -1,101 +1,67 @@
+// components/ProjectBanner.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProjectCard from "./ProjectCard";
 import { GoDotFill } from "react-icons/go";
 import Button from "../reusable-components/Button";
+import { ProjectsResponse } from "@/utils/helper/projectDataFetching";
 
+// Project data interface matching your API
 interface Project {
-    id: number;
-    title: string;
-    subtitle: string;
-    description: string;
-    category: string;
-    liveLink: string;
-    image: string;
-}
-
-interface ApiProject {
     id: number;
     name: string;
     description: string;
     link: string;
     image: string;
     video: string;
-    createdAt: string;
-    updatedAt: string;
+    // You can add these fields if needed for UI
+    category?: string;
+    subtitle?: string;
 }
 
-export default function Projects() {
+interface ProjectsProps {
+    projectsData?: ProjectsResponse;
+}
+
+export default function Projects({ projectsData }: ProjectsProps) {
     const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    
+    // Transform API data to match your component's needs
+    const transformApiData = (apiProjects: Project[]) => {
+        // Define categories for your projects - you might want to get this from API or define manually
+        const categories = ['UI/UX Design', 'Technology', 'App Development'];
+        
+        return apiProjects.map((project, index) => ({
+            id: project.id,
+            title: project.name,
+            subtitle: "- Project", // You can customize this based on your needs
+            description: project.description,
+            category: categories[index % categories.length] || 'Technology', // Fallback category
+            liveLink: project.link,
+            image: project.image
+        }));
+    };
 
-    // Fetch projects on component mount
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                setIsLoading(true);
-                const response = await fetch('https://tech-element-backend.vercel.app/api/v1/project/get-project-all?page=1&size=10');
+    // Use the transformed API data
+    const projects = transformApiData(projectsData.data || []);
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch projects');
-                }
-
-                const data = await response.json();
-
-                if (data.success) {
-                    // Transform API data to match your component structure
-                    const transformedProjects: Project[] = data.data.map((project: ApiProject, index: number) => ({
-                        id: project.id,
-                        title: project.name,
-                        subtitle: "- Project",
-                        description: project.description,
-                        category: ['UI/UX Design', 'Technology', 'App Development'][index % 3] || 'Technology',
-                        liveLink: project.link,
-                        image: project.image
-                    }));
-
-                    setProjects(transformedProjects);
-                } else {
-                    throw new Error(data.message || 'Failed to fetch projects');
-                }
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'An error occurred');
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchProjects();
-    }, []);
-
-    console.log(projects);
+    // Get unique categories from projects for filter buttons
+    const categories = ['All Categories', ...new Set(projects.map(project => project.category))];
 
     // Filter projects based on selected category
     const filteredProjects = selectedCategory === 'All Categories'
         ? projects
         : projects.filter(project => project.category === selectedCategory);
 
-    // Get unique categories
-    const categories = ['All Categories', ...new Set(projects.map(project => project.category))];
-
-    if (isLoading) {
+    // Show loading state if no data
+    if (!projectsData.success || projects.length === 0) {
         return (
             <section className="max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
                 <div className="text-center py-12">
-                    <p className="text-gray-500 dark:text-gray-400">Loading projects...</p>
-                </div>
-            </section>
-        );
-    }
-
-    if (error) {
-        return (
-            <section className="max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
-                <div className="text-center py-12">
-                    <p className="text-red-500 dark:text-red-400">Error: {error}</p>
+                    <p className="text-gray-500 dark:text-gray-400">
+                        {projectsData.message || "No projects found."}
+                    </p>
                 </div>
             </section>
         );
@@ -103,7 +69,6 @@ export default function Projects() {
 
     return (
         <section className="max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
-            {/* ... rest of your JSX remains the same ... */}
             {/* Filter Buttons */}
             <div className="relative mb-8">
                 <div className="flex overflow-x-auto pb-2 hide-scrollbar md:overflow-visible">
@@ -113,12 +78,18 @@ export default function Projects() {
                                 key={projectCategory}
                                 onClick={(e) => {
                                     setSelectedCategory(projectCategory);
+
+                                    // Scroll the button into view if it's partially visible
                                     const button = e.currentTarget;
                                     const buttonRect = button.getBoundingClientRect();
+
+                                    // Check if button is partially out of view on the right or left
                                     const isPartiallyVisible = (
                                         buttonRect.left >= 0 &&
                                         buttonRect.right <= window.innerWidth
                                     );
+
+                                    // If not fully visible, scroll it into view
                                     if (!isPartiallyVisible) {
                                         button.scrollIntoView({
                                             behavior: 'smooth',
@@ -155,14 +126,17 @@ export default function Projects() {
                 ))}
             </div>
 
-            {/* Load More Button */}
-            <div className="flex justify-center">
-                <Button className="flex items-center w-[202px] gap-2 bg-[#0057B8] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#004a9c] transition mt-[80px]">
-                    <GoDotFill size={25}></GoDotFill>
-                    <span>Load More</span>
-                </Button>
-            </div>
+            {/* Load More Button - You can implement pagination later */}
+            {projectsData.meta && projectsData.meta.totalPage > 1 && (
+                <div className="flex justify-center">
+                    <Button className="flex items-center w-[202px] gap-2 bg-[#0057B8] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#004a9c] transition mt-[80px]">
+                        <GoDotFill size={25}></GoDotFill>
+                        <span>Load More</span>
+                    </Button>
+                </div>
+            )}
 
+            {/* Add this to your global CSS or in a style tag */}
             <style jsx>{`
                 .hide-scrollbar::-webkit-scrollbar {
                     display: none;
