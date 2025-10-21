@@ -102,7 +102,7 @@ export function ThemeProvider({
     const storedTheme = localStorage.getItem(storageKey) as Theme;
     if (storedTheme) {
       setTheme(storedTheme);
-    } else if (defaultTheme === "system") {
+    } else if (defaultTheme === "dark") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
         .matches
         ? "dark"

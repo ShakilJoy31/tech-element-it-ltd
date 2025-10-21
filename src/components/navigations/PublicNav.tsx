@@ -110,8 +110,7 @@ export default function PublicNav() {
           <LanguageSwitcher></LanguageSwitcher>
           <Button
             onClick={() => router.push("/contact")}
-            className="bg-[#1D9BF0] dark:bg-[#1D9BF0] px-4 py-1 lg:px-6 rounded-md text-white text-sm font-medium whitespace-nowrap"
-          >
+            className={`${pathname === '/contact' ? 'bg-[#1D9BF0] dark:bg-[#1D9BF0] px-4 py-1 lg:px-6 rounded-full ' : 'bg-transparent'} text-white text-sm font-medium whitespace-nowrap`}>
             Contact Us
           </Button>
         </div>

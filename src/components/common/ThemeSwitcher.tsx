@@ -75,6 +75,7 @@ const ThemeSwitcher = () => {
           onClick={() => setIsOpen(false)}
         />
       )}
+      
     </div>
   );
 };

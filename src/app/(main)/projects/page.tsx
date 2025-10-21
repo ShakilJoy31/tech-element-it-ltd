@@ -1,4 +1,3 @@
-import ProjectBanner from "@/components/projects/ProjectBanner";
 import Projects from "@/components/projects/Projects";
 import RecentWork from "@/components/projects/RecentWork";
 import SignupSection from "@/components/projects/SignupSection";
@@ -22,7 +21,7 @@ const ProjectsPage = async () => {
 
   return (
     <div className="">
-      <ProjectBanner />
+      {/* <ProjectBanner /> */}
       <RecentWork />
       {/* Pass the fetched data to Projects component */}
       <Projects projectsData={projectsData} />
