@@ -5,6 +5,30 @@ import TemplateStats from "@/components/theme/TemplateStats";
 import ThemeBanner from "@/components/theme/ThemeBanner";
 import { generateDynamicMetadata } from "@/metadata/generateMetadata";
 
+// Define the theme interface based on your API response
+export interface Theme {
+  id: number;
+  name: string;
+  description: string;
+  link: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ThemesResponse {
+  success: boolean;
+  statusCode: number;
+  meta: {
+    page: number;
+    size: number;
+    total: number;
+    totalPage: number;
+  };
+  message: string;
+  data: Theme[];
+}
+
 export async function generateMetadata() {
     return generateDynamicMetadata({
         title: "Tech Element IT | Theme",
@@ -13,11 +37,44 @@ export async function generateMetadata() {
     });
 }
 
-const ThemesPage = () => {
+// Fetch themes data on the server
+async function getThemes(): Promise<ThemesResponse> {
+  try {
+    const response = await fetch('https://tech-element-backend.vercel.app/api/v1/theme/get-theme-all', {
+      // Add cache revalidation if needed
+      next: { 
+        revalidate: 60 // Revalidate every 60 seconds
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch themes');
+    }
+
+    const themes: ThemesResponse = await response.json();
+    return themes;
+  } catch (error) {
+    console.error('Error fetching themes:', error);
+    // Return empty data structure on error
+    return {
+      success: false,
+      statusCode: 500,
+      meta: { page: 1, size: 10, total: 0, totalPage: 1 },
+      message: 'Failed to fetch themes',
+      data: []
+    };
+  }
+}
+
+const ThemesPage = async () => {
+  // Fetch themes data on the server
+  const themesData = await getThemes();
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <ThemeBanner />
-      <TemplateShowcase />
+      {/* Pass the fetched data to TemplateShowcase component */}
+      <TemplateShowcase themesData={themesData} />
       <TemplateFeatures />
       <TemplateStats />
       <SignupSection />

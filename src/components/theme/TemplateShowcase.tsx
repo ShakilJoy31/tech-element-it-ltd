@@ -4,22 +4,45 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ExternalLink, ShoppingCart, Star } from "lucide-react";
-import projectImage1 from "../../../public/Project-Screenshot/e-commerce.png"
-import projectImage2 from "../../../public/Project-Screenshot/fashinova.png"
-import projectImage3 from "../../../public/Project-Screenshot/gramer-hut.png"
-import projectImage4 from "../../../public/Project-Screenshot/taste-hub.png"
-import projectImage5 from "../../../public/Project-Screenshot/car-garage.png"
-import projectImage6 from "../../../public/Project-Screenshot/juyela.png"
 import Button from "../reusable-components/Button";
+import { useRouter } from "next/navigation";
 
-// Template data
-const templates = [
+// Define the interfaces
+export interface Theme {
+  id: number;
+  name: string;
+  description: string;
+  link: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ThemesResponse {
+  success: boolean;
+  statusCode: number;
+  meta: {
+    page: number;
+    size: number;
+    total: number;
+    totalPage: number;
+  };
+  message: string;
+  data: Theme[];
+}
+
+interface TemplateShowcaseProps {
+  themesData: ThemesResponse;
+}
+
+// Default templates data in case API fails
+const defaultTemplates = [
     {
         id: 1,
         name: "Borcelle E-Commerce",
         category: "E-Commerce",
         description: "A sleek, modern e-commerce template with advanced product filtering, cart functionality, and seamless checkout process.",
-        image: projectImage1.src,
+        image: "/Project-Screenshot/e-commerce.png",
         liveUrl: "https://e-commerce-template-olive-seven.vercel.app",
         price: "$89",
         features: ["Responsive Design", "Dark Mode", "Product Reviews", "Wishlist", "Cart"],
@@ -31,7 +54,7 @@ const templates = [
         name: "Gramer Hut",
         category: "Organic Food",
         description: "Fresh and clean design for organic food stores with recipe sections, delivery tracking, and subscription options.",
-        image: projectImage3.src,
+        image: "/Project-Screenshot/gramer-hut.png",
         liveUrl: "https://gramer-haat.vercel.app",
         price: "$79",
         features: ["Organic Food", "Delivery Tracking", "Subscription Box", "Farm Stories"],
@@ -43,7 +66,7 @@ const templates = [
         name: "Fashnova",
         category: "E-Commerce",
         description: "High-tech template for electronics stores with comparison tools, tech specs, and customer support integration.",
-        image: projectImage2.src,
+        image: "/Project-Screenshot/fashinova.png",
         liveUrl: "https://fashnova-kappa.vercel.app",
         price: "$95",
         features: ["Fashion", "Catogories", "Men", "Women", "Child"],
@@ -55,7 +78,7 @@ const templates = [
         name: "Taste Hub",
         category: "Restaurant",
         description: "Trendy fashion template with lookbook, size guides, and social media integration for clothing brands.",
-        image: projectImage4.src,
+        image: "/Project-Screenshot/taste-hub.png",
         liveUrl: "https://taste-hub-jjsf.vercel.app",
         price: "$85",
         features: ["Lookbook", "Size Guide", "Social Feed", "Style Quiz"],
@@ -67,7 +90,7 @@ const templates = [
         name: "Car Garage",
         category: "Showroom",
         description: "Trendy fashion template with lookbook, size guides, and social media integration for clothing brands.",
-        image: projectImage5.src,
+        image: "/Project-Screenshot/car-garage.png",
         liveUrl: "https://car-garage-xi.vercel.app",
         price: "$85",
         features: ["Lookbook", "Size Guide", "Social Feed", "Style Quiz"],
@@ -79,7 +102,7 @@ const templates = [
         name: "Juyela",
         category: "Fashion",
         description: "Trendy fashion template with lookbook, size guides, and social media integration for clothing brands.",
-        image: projectImage6.src,
+        image: "/Project-Screenshot/juyela.png",
         liveUrl: "https://juyala.vercel.app",
         price: "$85",
         features: ["Lookbook", "Size Guide", "Social Feed", "Style Quiz"],
@@ -88,13 +111,38 @@ const templates = [
     }
 ];
 
-export default function TemplateShowcase() {
+// Function to transform API data to template format
+function transformApiDataToTemplates(apiData: Theme[]) {
+  return apiData.map(theme => ({
+    id: theme.id,
+    name: theme.name,
+    category: "E-Commerce", // You might want to add category to your API or derive it
+    description: theme.description,
+    image: theme.image,
+    liveUrl: theme.link,
+    price: "$79", // Default price or add to API
+    features: ["Responsive Design", "Modern UI", "Fast Performance"], // Default features or add to API
+    rating: 4.8, // Default rating or add to API
+    sales: 500 // Default sales or add to API
+  }));
+}
+
+export default function TemplateShowcase({ themesData }: TemplateShowcaseProps) {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [hoveredTemplate, setHoveredTemplate] = useState<number | null>(null);
 
+    const router = useRouter();
+
+    // Use API data if available, otherwise use default templates
+    const apiTemplates = themesData.success && themesData.data.length > 0 
+        ? transformApiDataToTemplates(themesData.data)
+        : [];
+
+    const allTemplates = apiTemplates.length > 0 ? apiTemplates : defaultTemplates;
+
     const filteredTemplates = selectedCategory === 'All'
-        ? templates
-        : templates.filter(template => template.category === selectedCategory);
+        ? allTemplates
+        : allTemplates.filter(template => template.category === selectedCategory);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -165,7 +213,6 @@ export default function TemplateShowcase() {
                     </div>
                 </div>
 
-
                 {/* Templates Grid */}
                 <motion.div
                     variants={containerVariants}
@@ -188,16 +235,16 @@ export default function TemplateShowcase() {
                                 <div className="relative h-64 overflow-hidden">
                                     <motion.div
                                         animate={{
-                                            y: hoveredTemplate === template.id ? "-100%" : "0" // Changed: 0 = top, -100 = bottom
+                                            y: hoveredTemplate === template.id ? "-100%" : "0"
                                         }}
                                         transition={{ duration: 8, ease: "linear" }}
-                                        className="w-full h-[1100%]" // This makes the image container twice the height
+                                        className="w-full h-[1100%]"
                                     >
                                         <Image
                                             src={template.image}
                                             alt={template.name}
                                             fill
-                                            className="object-cover object-top" // Start from top
+                                            className="object-cover object-top"
                                         />
                                     </motion.div>
 
@@ -272,10 +319,10 @@ export default function TemplateShowcase() {
                                         <div className="text-sm text-gray-500 dark:text-gray-400">
                                             {template.sales.toLocaleString()} sales
                                         </div>
-                                        <motion.button
+                                        <motion.button onClick={()=> router.push('/pricing/pricing-details/customer-info-fields')}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
-                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-semibold transition-colors"
+                                            className="bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white px-4 py-2 rounded-lg flex items-center gap-2 font-semibold transition-colors"
                                         >
                                             <ShoppingCart size={16} />
                                             Purchase
@@ -286,6 +333,19 @@ export default function TemplateShowcase() {
                         ))}
                     </AnimatePresence>
                 </motion.div>
+
+                {/* Empty State */}
+                {filteredTemplates.length === 0 && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-center py-12"
+                    >
+                        <p className="text-gray-500 dark:text-gray-400 text-lg">
+                            No templates found for the selected category.
+                        </p>
+                    </motion.div>
+                )}
 
                 {/* Add this to your global CSS or in a style tag */}
                 <style jsx>{`

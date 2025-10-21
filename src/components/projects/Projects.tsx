@@ -4,91 +4,76 @@
 import { useState } from "react";
 import ProjectCard from "./ProjectCard";
 import { GoDotFill } from "react-icons/go";
-import { useRouter } from "next/navigation";
 import Button from "../reusable-components/Button";
-import productImage from "@/assets/Projects/Screenshot (1235).png";
-import productImage2 from "@/assets/Projects/projectImagee (1).png";
-import productImage3 from "@/assets/Projects/Screenshot (1236).png";
-import productImage4 from "@/assets/Projects/Screenshot (1234).png";
+import { ProjectsResponse } from "@/utils/helper/projectDataFetching";
 
-// Project data interface
+// Project data interface matching your API
 interface Project {
     id: number;
-    title: string;
-    subtitle: string;
+    name: string;
     description: string;
-    category: string;
+    link: string;
     image: string;
+    video: string;
+    // You can add these fields if needed for UI
+    category?: string;
+    subtitle?: string;
 }
 
-export default function Projects() {
-    const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
-    const router = useRouter();
+interface ProjectsProps {
+    projectsData?: ProjectsResponse;
+}
 
-    // Real project data array
-    const projects: Project[] = [
-        {
-            id: 1,
-            title: "KRY",
-            subtitle: "- E-Commerce",
-            description: "Revolutionizing online shopping with a sleek, user-friendly platform featuring secure payments, advanced search filters, and personalized recommendations.",
-            category: "App Development",
-            image: productImage.src
-        },
-        {
-            id: 2,
-            title: "School Management",
-            subtitle: "- Educational Software",
-            description: "A comprehensive fitness app with workout tracking, meal planning, and progress analytics to help users achieve their health goals.",
-            category: "UI/UX Design",
-            image: productImage2.src
-        },
-        {
-            id: 3,
-            title: "Iconic",
-            subtitle: "- Ticket Management Software",
-            description: "An intuitive IoT solution that allows users to control their home appliances, security systems, and energy usage from a single interface.",
-            category: "Technology",
-            image: productImage3.src
-        },
-        {
-            id: 4,
-            title: "Proyojon Sobar",
-            subtitle: "- E-Commerce",
-            description: "A powerful financial analytics dashboard that provides real-time insights into spending patterns, investments, and budget management.",
-            category: "UI/UX Design",
-            image: productImage4.src
-        },
-        {
-            id: 5,
-            title: "Educational Platform for",
-            subtitle: "Remote Learning",
-            description: "An interactive learning management system with video conferencing, assignment tracking, and collaborative tools for students and educators.",
-            category: "App Development",
-            image: productImage.src
-        },
-        {
-            id: 6,
-            title: "Travel Planning",
-            subtitle: "AI Assistant",
-            description: "An intelligent travel planner that uses machine learning to suggest personalized itineraries based on user preferences and budget constraints.",
-            category: "Technology",
-            image: productImage.src
-        }
-    ];
+export default function Projects({ projectsData }: ProjectsProps) {
+    const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
+    
+    // Transform API data to match your component's needs
+    const transformApiData = (apiProjects: Project[]) => {
+        // Define categories for your projects - you might want to get this from API or define manually
+        const categories = ['UI/UX Design', 'Technology', 'App Development'];
+        
+        return apiProjects.map((project, index) => ({
+            id: project.id,
+            title: project.name,
+            subtitle: "- Project", // You can customize this based on your needs
+            description: project.description,
+            category: categories[index % categories.length] || 'Technology', // Fallback category
+            liveLink: project.link,
+            image: project.image
+        }));
+    };
+
+    // Use the transformed API data
+    const projects = transformApiData(projectsData.data || []);
+
+    // Get unique categories from projects for filter buttons
+    const categories = ['All Categories', ...new Set(projects.map(project => project.category))];
 
     // Filter projects based on selected category
     const filteredProjects = selectedCategory === 'All Categories'
         ? projects
         : projects.filter(project => project.category === selectedCategory);
 
+    // Show loading state if no data
+    if (!projectsData.success || projects.length === 0) {
+        return (
+            <section className="max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
+                <div className="text-center py-12">
+                    <p className="text-gray-500 dark:text-gray-400">
+                        {projectsData.message || "No projects found."}
+                    </p>
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section className="max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
-            {/* Filter Buttons - Made horizontally scrollable on mobile */}
+            {/* Filter Buttons */}
             <div className="relative mb-8">
                 <div className="flex overflow-x-auto pb-2 hide-scrollbar md:overflow-visible">
                     <div className="flex space-x-2 min-w-max md:min-w-0 bg-gray-50 dark:bg-gray-900 rounded-lg p-1 shadow-sm">
-                        {['All Categories', 'UI/UX Design', 'Technology', 'App Development'].map((projectCategory) => (
+                        {categories.map((projectCategory) => (
                             <Button
                                 key={projectCategory}
                                 onClick={(e) => {
@@ -114,8 +99,8 @@ export default function Projects() {
                                     }
                                 }}
                                 className={`flex-shrink-0 px-4 py-2 rounded-lg hover:cursor-pointer font-semibold transition-colors duration-200 ${selectedCategory === projectCategory
-                                        ? "bg-[#1776BB] text-white"
-                                        : "text-gray-700 dark:text-gray-200"
+                                    ? "bg-[#1776BB] text-white"
+                                    : "text-gray-700 dark:text-gray-200"
                                     }`}
                             >
                                 {projectCategory}
@@ -128,24 +113,28 @@ export default function Projects() {
             {/* Product Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProjects.map((project) => (
-                    <div key={project.id} onClick={() => router.push(`/projects/project-details/${project.id}`)} className="hover:cursor-pointer">
+                    <div key={project.id} className="hover:cursor-pointer">
                         <ProjectCard
                             title={project.title}
+                            id={project.id}
                             subtitle={project.subtitle}
                             description={project.description}
                             image={project.image}
+                            liveLink={project.liveLink}
                         />
                     </div>
                 ))}
             </div>
 
-            {/* Load More Button */}
-            <div className="flex justify-center">
-                <Button className="flex items-center w-[202px] gap-2 bg-[#0057B8] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#004a9c] transition mt-[80px]">
-                    <GoDotFill size={25}></GoDotFill>
-                    <span>Load More</span>
-                </Button>
-            </div>
+            {/* Load More Button - You can implement pagination later */}
+            {projectsData.meta && projectsData.meta.totalPage > 1 && (
+                <div className="flex justify-center">
+                    <Button className="flex items-center w-[202px] gap-2 bg-[#0057B8] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#004a9c] transition mt-[80px]">
+                        <GoDotFill size={25}></GoDotFill>
+                        <span>Load More</span>
+                    </Button>
+                </div>
+            )}
 
             {/* Add this to your global CSS or in a style tag */}
             <style jsx>{`
