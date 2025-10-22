@@ -18,6 +18,6 @@ export const apiSlice = createApi({
   baseQuery: customBaseQuery,
   endpoints: () => ({}),
   tagTypes: [
-    "EmailClient",
+    "email-client"
   ],
 });

@@ -7,8 +7,8 @@ import Paragraph from "../reusable-components/Paragraph";
 import AnimatedText from "../reusable-components/AnimatedText";
 import teamMember2 from '@/assets/About-Us/hafsa.png'
 import teamMember3 from '@/assets/About-Us/team-menberr (2).png'
-import teamMember4 from '@/assets/About-Us/team-menberr (3).png'
-import teamMember5 from '@/assets/About-Us/team-menberr (4).png'
+// import teamMember4 from '@/assets/About-Us/team-menberr (3).png'
+// import teamMember5 from '@/assets/About-Us/team-menberr (4).png'
 import teamMember6 from '@/assets/About-Us//team (2).png'
 import teamMember7 from '@/assets/About-Us/team (1).png'
 import teamMember8 from '@/assets/About-Us/WhatsApp Image 2025-08-23 at 13.07.59_322830a0.jpg'
@@ -29,16 +29,6 @@ const teamMembers = [
         name: "Kamrul Islam",
         title: "UI/UX Designer",
         image: teamMember3.src
-    },
-    {
-        name: "Puja Saha",
-        title: "UI/UX Designer",
-        image: teamMember4.src
-    },
-    {
-        name: "Imran Hossain",
-        title: "Software Engineer",
-        image: teamMember5.src
     },
      {
         name: "Imran Hossain",
