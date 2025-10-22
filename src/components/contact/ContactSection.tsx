@@ -19,7 +19,7 @@ export default function ContactSection() {
   const {
     register,
     handleSubmit,
-    reset,
+    // reset,
     formState: { errors },
   } = useForm<EmailSchemaData>({
     resolver: zodResolver(emailSchema),
@@ -40,7 +40,7 @@ export default function ContactSection() {
       const { country, ...rest } = data;
       const payload = country?.trim() ? { ...rest, country } : rest;
       const response = await createEmailClient(payload).unwrap();
-      reset();
+      console.log(response)
       if (response?.success) {
         toast.success(
           response.message ||
@@ -52,7 +52,7 @@ export default function ContactSection() {
         );
       }
     } catch (error: any) {
-      console.error("Error submitting form:", error);
+      console.log(error);
       toast.error(
         error?.data?.message || "Failed to send message. Please try again!",
         {
@@ -66,7 +66,7 @@ export default function ContactSection() {
   return (
     <section className="w-full px-4 sm:px-6 lg:px-8 py-12 max-w-[1280px] mx-auto">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-300 mb-2">Contact Us</h2>
+        <h2 className="text-3xl font-bold text-[#1776BA] dark:text-gray-300 mb-2">Contact Us</h2>
         <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
           Get in touch with us to discuss how we can support your objectives
         </p>
@@ -74,7 +74,7 @@ export default function ContactSection() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left: Form */}
-        <div className="bg-gray-100 dark:bg-[#111827] text-white rounded-xl p-6 sm:p-8 shadow-md border border-gray-800">
+        <div className="bg-blue-100 dark:bg-[#111827] text-white rounded-xl p-6 sm:p-8 shadow-md border border-gray-800">
           <h3 className="text-lg font-semibold mb-4 text-black dark:text-white ">Send us a Message</h3>
           {submitSuccess && (
             <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
@@ -121,11 +121,11 @@ export default function ContactSection() {
                 )}
               </div>
 
-             
+
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-               <div>
+              <div>
                 <Label htmlFor="email" className="text-gray-900 dark:text-gray-300">
                   Email Address *
                 </Label>
@@ -169,7 +169,7 @@ export default function ContactSection() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-               <div>
+              <div>
                 <Label htmlFor="subject" className="text-gray-900 dark:text-gray-300">
                   Subject
                 </Label>
@@ -186,7 +186,7 @@ export default function ContactSection() {
                 )}
               </div>
 
-               <div>
+              <div>
                 <Label htmlFor="projectName" className="text-gray-900 dark:text-gray-300">
                   Project Name
                 </Label>
@@ -251,7 +251,7 @@ export default function ContactSection() {
 
         {/* Right: Contact Info */}
         <div className="space-y-6">
-          <div className="bg-gradient-to-b from-orange-400 to-white border border-orange-500 rounded-xl p-6 shadow-md">
+          <div className="bg-orange-100 border border-orange-500 rounded-xl p-6 shadow-md">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Contact Information
             </h3>

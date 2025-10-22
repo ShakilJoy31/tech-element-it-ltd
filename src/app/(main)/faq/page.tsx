@@ -1,4 +1,4 @@
-import FAQbanner from "@/components/faq/FAQBanner";
+
 import PricingFAQ from "@/components/pricing/PricingFAQ";
 import ServiceFAQ from "@/components/service/ServiceFAQ";
 import { generateDynamicMetadata } from "@/metadata/generateMetadata";
@@ -17,7 +17,6 @@ export async function generateMetadata() {
 const ProjectsPage = () => {
   return (
     <div className="">
-        <FAQbanner></FAQbanner>
        <PricingFAQ />
        <div className="h-[2px] w-full bg-gradient-to-r from-[#1776BB] via-white to-[#eb5e30]"></div>
        <ServiceFAQ></ServiceFAQ>
