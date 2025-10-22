@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { useCreateEmailClientMutation } from "@/redux/api/email/emailApi";
 import { emailSchema, EmailSchemaData } from "@/schema/email/EmailSchema";
+import { Console } from "console";
 
 export default function ContactSection() {
   const [createEmailClient, { isLoading }] = useCreateEmailClientMutation();
@@ -39,8 +40,10 @@ export default function ContactSection() {
     try {
       const { country, ...rest } = data;
       const payload = country?.trim() ? { ...rest, country } : rest;
+      console.log(payload)
       const response = await createEmailClient(payload).unwrap();
-      reset();
+      // reset();
+      console.log(response)
       if (response?.success) {
         toast.success(
           response.message ||
