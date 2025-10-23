@@ -1,11 +1,13 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { Project } from "@/types/projectType";
 
 interface ImageCollageProps {
-  images: string[];
+  project: Project;
 }
 
-export default function ImageCollage({ images }: ImageCollageProps) {
+export default function ImageCollage({ project }: ImageCollageProps) {
+  const images = [project?.image, project?.image, project?.image, project?.image]
   return (
     <div className="max-w-[1280px] mx-auto px-4 lg:px-0 py-6 md:py-8">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-[15px]">

@@ -15,8 +15,6 @@ interface ProjectsProps {
 
 export default function Projects({ projectsData }: ProjectsProps) {
     const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
-
-    console.log(projectsData);
     
     // Transform API data to match your component's needs
     const transformApiData = (apiProjects: Project[]) => {

@@ -2,7 +2,7 @@
 
 import { FaUsers, FaSearch, FaPenNib, FaCode, FaUserCheck, FaCheckCircle } from "react-icons/fa";
 import Image from "next/image";
-import meetingRightImage from "@/assets/Home/meeting.png";
+import meetingRightImage from "@/assets/Home/8408.jpg";
 import Heading from "../reusable-components/Heading";
 import Paragraph from "../reusable-components/Paragraph";
 import { useState } from "react";

@@ -120,9 +120,9 @@ export default function Footer() {
           COURTESY 2023 © ALL RIGHTS RESERVED.
         </Paragraph>
         <Paragraph className="flex gap-2 md:gap-4">
-          <span className="hover:text-blue-500 cursor-pointer text-[14px]">PRIVACY POLICY</span>
+          <Link href="/terms-and-condition" className="hover:text-blue-500 cursor-pointer text-[14px]">PRIVACY POLICY</Link>
           <span>|</span>
-          <span className="hover:text-blue-500 cursor-pointer text-[14px]">TERMS & CONDITIONS</span>
+          <Link href="/terms-and-condition" className="hover:text-blue-500 cursor-pointer text-[14px]">TERMS & CONDITIONS</Link>
         </Paragraph>
       </div>
     </footer>
