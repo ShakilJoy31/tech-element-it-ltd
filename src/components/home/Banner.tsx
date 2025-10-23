@@ -2,7 +2,6 @@
 
 import React from "react";
 import bannerBackgroundImage from "../../assets/Home/Hero-back.png";
-import knot from "../../assets/Home/knot2 1.png";
 import Image from "next/image";
 import Heading from "../reusable-components/Heading";
 import Paragraph from "../reusable-components/Paragraph";
@@ -10,6 +9,7 @@ import Button from "../reusable-components/Button";
 import { HiSparkles } from "react-icons/hi";
 import dotStar from '@/assets/Icons/Sparkles.svg'
 import AnimatedText from "../reusable-components/AnimatedText";
+import TechElementAnimated from "./TechElementAnimated";
 
 const Banner = () => {
     return (
@@ -54,14 +54,8 @@ const Banner = () => {
                 {/* Image */}
                 <div className="w-full lg:w-auto mt-2 lg:mt-0 ">
                     <div className="flex justify-center lg:justify-end relative ">
-                        <Image
-                            src={knot}
-                            alt="Main banner rotating image"
-                            width={500}
-                            height={500}
-                            className="object-contain w-[280px] sm:w-[380px] md:w-[480px] rotating-image-X"
-                            priority
-                        />
+                        
+                        <TechElementAnimated></TechElementAnimated>
                         <Image
                             src={dotStar}
                             alt="Main banner rotating image"

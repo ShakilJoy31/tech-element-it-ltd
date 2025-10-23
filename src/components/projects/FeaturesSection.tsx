@@ -1,97 +1,94 @@
-import { FC } from "react";
-import Image from "next/image";
-import featureImage from '@/assets/Logo/feature-icon (1).svg'
-import featureImage1 from '@/assets/Logo/feature-icon (2).svg'
+import { Project } from "@/types/projectType";
 import Heading from "../reusable-components/Heading";
 import Paragraph from "../reusable-components/Paragraph";
-import AnimatedText from "../reusable-components/AnimatedText";
 
-const features = [
-    {
-        icon: featureImage.src,
-        title: "User Management",
-        description:
-            "We work closely with your team to understand your mission, values, and goals, forming the foundation of your brand identity.",
-    },
-    {
-        icon: featureImage1.src,
-        title: "Branco Management",
-        description:
-            "Configure your infrastructure in your own cloud, using best practices, automatically",
-    },
-    {
-        icon: featureImage1.src,
-        title: "Branco Target Management",
-        description:
-            "Configure your infrastructure in your own cloud, using best practices, automatically",
-    },
-    {
-        icon: featureImage1.src,
-        title: "Buyer Management",
-        description:
-            "We work closely with your team to understand your mission, values, and goals, forming.",
-    },
-    {
-        icon: featureImage1.src,
-        title: "Seller Management",
-        description:
-            "Empower your sellers with full control and transparency",
-    },
-];
 
-const FeaturesSection: FC = () => {
-    return (
-        <section className="bg-[#111111] text-white pt-8 md:pt-[60px] pb-12 md:pb-[84px] px-4">
-            <div className="max-w-[1280px] mx-auto relative">
-                {/* Gradient Background */}
-                <div
-                    className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full max-w-[300px] sm:max-w-[400px] md:max-w-[536px] h-[300px] sm:h-[400px] md:h-[543px] rounded-full opacity-90"
-                    style={{ zIndex: 0, background: "linear-gradient(to bottom, #6366F166 0%, #111111 40%)" }}
-                ></div>
+interface FeaturesSectionProps {
+  project: Project;
+}
 
-                {/* Title */}
-                <div className="relative flex justify-center" style={{ zIndex: 10 }}>
-                    <Heading>
-                        <AnimatedText
-                            className="text-3xl sm:text-4xl md:text-[50px] font-bold text-center mt-8 md:mt-[87px]"
-                            text="Features"
-                            loop={true}
-                            loopDelay={5}
-                            speed={0.03}
-                        />
-                    </Heading>
-                </div>
+export default function FeaturesSection({ project }: FeaturesSectionProps) {
+  const features = [
+    {
+      title: "Project Category",
+      description: project.category,
+      icon: "📁"
+    },
+    {
+      title: "Live Demo",
+      description: "Available for viewing",
+      icon: "🌐"
+    },
+    {
+      title: "Project Status",
+      description: "Completed",
+      icon: "✅"
+    },
+    {
+      title: "Technology",
+      description: "Modern Web Stack",
+      icon: "⚡"
+    }
+  ];
 
-                {/* Features Grid */}
-                <div
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-y-12 mt-8 md:mt-12 relative"
-                    style={{ zIndex: 20 }}
-                >
-                    {features?.map((feature, i) => (
-                        <div key={i} className="flex flex-col items-start gap-3 sm:gap-4 p-4 sm:p-0">
-                            <Image
-                                src={feature.icon}
-                                alt={feature.title}
-                                width={32}
-                                height={32}
-                                className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10"
-                            />
-                            <Heading>
-                                <AnimatedText
-                                    text={feature.title}
-                                    loop={false}
-                                    className="text-base sm:text-lg font-semibold"
-                                />
-                            </Heading>
-                            <Paragraph className="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                                {feature.description}
-                            </Paragraph>
-                        </div>
-                    ))}
-                </div>
+  return (
+    <section className="bg-white dark:bg-black py-16 px-4">
+      <div className="max-w-[1280px] mx-auto">
+        <Heading className="text-3xl md:text-4xl font-bold text-center mb-12">
+          Project Highlights
+        </Heading>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feature, index) => (
+            <div 
+              key={index}
+              className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-center hover:shadow-lg transition-shadow"
+            >
+              <div className="text-3xl mb-4">{feature.icon}</div>
+              <h3 className="text-xl font-semibold text-black dark:text-white mb-2">
+                {feature.title}
+              </h3>
+              <Paragraph className="text-gray-600 dark:text-gray-300">
+                {feature.description}
+              </Paragraph>
             </div>
-        </section>
-    );
-};
+          ))}
+        </div>
 
-export default FeaturesSection;
+        {/* Additional Project Info */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-2xl font-bold text-black dark:text-white mb-4">About This Project</h3>
+            <Paragraph className="text-gray-600 dark:text-gray-300">
+              {project.description}
+            </Paragraph>
+          </div>
+          
+          <div>
+            <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Quick Details</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+                <span className="text-gray-600 dark:text-gray-300">Project Name:</span>
+                <span className="text-black dark:text-white font-medium">{project.name}</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+                <span className="text-gray-600 dark:text-gray-300">Category:</span>
+                <span className="text-black dark:text-white font-medium">{project.category}</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+                <span className="text-gray-600 dark:text-gray-300">Launch Date:</span>
+                <span className="text-black dark:text-white font-medium">
+                  {new Date(project.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600 dark:text-gray-300">Status:</span>
+                <span className="text-green-500 font-medium">Live</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
